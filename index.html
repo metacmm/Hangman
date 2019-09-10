@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/javascript/gameset.js"></script>
+    <script src="assets/javascript/game.js"></script>
+
+</head>
+<body>
+    <header>
+        <h1>HangMan</h1>
+    </header>
+    <div class="container">
+        <div class = "row">
+            <div class="col-md-6">
+                <img>
+                <audio hidden controls>
+                    <source>
+                </audio>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    current word: 
+                    <span id="txt-curWord">
+
+                    </span>
+                </p>
+                <p>
+                    remaining guess numbers: 
+                    <span id="txt-remainingGuess">
+
+                    </span>
+                </p>
+                <p>
+                    guessed letters: 
+                    <span id="txt-guessedLetters">
+
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
