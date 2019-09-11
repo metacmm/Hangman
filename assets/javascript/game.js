@@ -1,10 +1,13 @@
-$(document).ready(function () {
-
-    var curWord = []; //user guess
-    var remainingGuess = null; //remaining guess number
-    var guessedLetters = []; //guessed letters not in the target word
-    var isNewGame; //boolean to indicate if it is a new game
-    var curGame; //randomly selected game for current round
+function game(w, image, music){
+    this.curWord = []; //user guess
+    this.remainingGuess = 12; //remaining guess number
+    this.guessedLetters = []; //guessed letters not in the target word
+    this.word = w;
+    this.imageUrl = image;
+    this.musicUrl = music;
+    for (var i = 0; i < curGame.word.length; i++) {
+        this.curWord [i]= "_";
+    }
 
     //DOM 
     var curWordText = document.getElementById("txt-curWord");
@@ -13,75 +16,30 @@ $(document).ready(function () {
     var instructionText = document.getElementById("txt-instruction");
     var gameImage = document.getElementById("img-game");
 
-    document.onkeyup = function (event) {
-        if (typeof isNewGame === "undefined") {
-            //first time
-            isNewGame = true;
-            return;
-        }
-        if (isNewGame) {
-            startNewGame();
-            refreshScreen();
-        }
+    this.guess = function(letter){
+        if (curGame.word.toUpperCase().indexOf(letter) != -1) {
+            if (curWord.indexOf(letter) == -1) {
+                for (var i = 0; i < curGame.word.length; i++) {
+                    if (curGame.word[i].toUpperCase() === letter) {
+                        curWord[i]= letter;
+                    }                    
+                }
+            }
+        } //matched
         else {
-            //update the field based on current key
-            var userGuess = event.key.toUpperCase();
-
-            if (curGame.word.toUpperCase().indexOf(userGuess) != -1) {
-                if (curWord.indexOf(userGuess) == -1) {
-                    var curWordCopy = curWord;
-                    for (var i = 0; i < curGame.word.length; i++) {
-                        if (curGame.word[i].toUpperCase() === userGuess) {
-                            curWord[i]= userGuess;
-                        }                    }
-                }
-            } //matched
-            else {
-                if (guessedLetters.indexOf(userGuess) == -1) {
-                    guessedLetters.push(userGuess);
-                    remainingGuess--;
-                }
-            }//unmatched
-
-
-            if (!isNewGame) {
-                refreshScreen();
+            if (guessedLetters.indexOf(letter) == -1) {
+                guessedLetters.push(letter);
+                remainingGuess--;
             }
-
-            //win, all letters are gussed
-            if (curWord.indexOf("_") == -1) {
-                isNewGame = true;
-                gameImage.setAttribute("src", curGame.imageUrl);
-                instructionText.textContent = "You Win! Press any key to restart a new game";
-            } 
-            //lose, remaining guess equal to 0
-            else if (remainingGuess == 0) {
-                isNewGame = true;
-                gameImage.setAttribute("src", "assets/images/lose.png");
-                instructionText.textContent = "You Lose! Press any key to restart a new game";
-            }
-        }
-    }
-    function startNewGame() {
-        curWord = [];
-        guessedLetters = [];
-        var rndIdx = Math.floor(Math.random() * games.length);
-        curGame = games[rndIdx];
-        for (var i = 0; i < curGame.word.length; i++) {
-            curWord [i]= "_";
-        }
-        curGame = games[rndIdx];
-        remainingGuess = 12;
-        isNewGame = false;
-        gameImage.setAttribute("src", "assets/images/start.jpeg");
-        instructionText.textContent = "Type the letter you guessed"
+        }//unmatched
     }
 
-    function refreshScreen() {
-        curWordText.textContent = curWord.join(" ");
-        remainingGuessText.textContent = remainingGuess;
-        guessedLettersText.textContent = guessedLetters.join(" ");
+    this.isWon = function(){
+        return this.curWord.indexOf("_") == -1;
     }
-});
 
+    this.isLost = function(){
+        return this.remainingGuess == 0;
+    }
+}
 
