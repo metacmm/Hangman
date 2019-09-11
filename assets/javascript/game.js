@@ -33,22 +33,26 @@ $(document).ready(function () {
         //update the field based on current key
         var userGuess = event.key.toUpperCase();
 
-        if (curGame.word.toUpperCase().indexOf(userGuess) != -1 && curWord.indexOf(userGuess) == -1) {
-            var curWordCopy = curWord;
-            curWord = "";
-            for (var i = 0; i < curGame.word.length; i++) {
-                if (curGame.word[i].toUpperCase() === userGuess) {
-                    curWord += userGuess;
-                }
-                else {
-                    curWord += curWordCopy[i];
+        if (curGame.word.toUpperCase().indexOf(userGuess) != -1) {
+            if (curWord.indexOf(userGuess) == -1) {
+                var curWordCopy = curWord;
+                curWord = "";
+                for (var i = 0; i < curGame.word.length; i++) {
+                    if (curGame.word[i].toUpperCase() === userGuess) {
+                        curWord += userGuess;
+                    }
+                    else {
+                        curWord += curWordCopy[i];
+                    }
                 }
             }
         } //matched
-        else if (guessedLetters.indexOf(userGuess) == -1) {
-            guessedLetters += userGuess;
-            remainingGuess--;
-        }//unmatched and not typed before
+        else {
+            if (guessedLetters.indexOf(userGuess) == -1) {
+                guessedLetters += userGuess;
+                remainingGuess--;
+            }
+        }//unmatched
 
 
         if (!isNewGame) {
@@ -60,7 +64,7 @@ $(document).ready(function () {
 
             guessedLettersText.textContent = guessedLetters;
         }
-        
+
         /** if success (all words guessed), isNewGame = true, update image, music */
         if (curWord.indexOf("_") == -1) {
             isNewGame = true;
