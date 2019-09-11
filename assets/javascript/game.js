@@ -11,6 +11,7 @@ $(document).ready(function () {
     var remainingGuessText = document.getElementById("txt-remainingGuess");
     var guessedLettersText = document.getElementById("txt-guessedLetters");
     var instructionText = document.getElementById("txt-instruction");
+    var gameImage = document.getElementById("img-game");
 
     document.onkeyup = function (event) {
         if (typeof isNewGame === "undefined") {
@@ -51,15 +52,16 @@ $(document).ready(function () {
                 refreshScreen();
             }
 
-            //all letters are gussed
+            //win, all letters are gussed
             if (curWord.indexOf("_") == -1) {
                 isNewGame = true;
+                gameImage.setAttribute("src", curGame.imageUrl);
                 instructionText.textContent = "You Win! Press any key to restart a new game.";
-
             } 
             //lose, remaining guess equal to 0
             else if (remainingGuess == 0) {
                 isNewGame = true;
+                gameImage.setAttribute("src", "assets/images/lose.png");
                 instructionText.textContent = "You Lose! Press any key to restart a new game.";
             }
         }
@@ -75,6 +77,7 @@ $(document).ready(function () {
         curGame = games[rndIdx];
         remainingGuess = 12;
         isNewGame = false;
+        gameImage.setAttribute("src", "assets/images/start.jpeg");
         instructionText.textContent = "Type the letter you guessed."
     }
 
