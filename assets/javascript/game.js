@@ -15,6 +15,7 @@ $(document).ready(function () {
 
     document.onkeyup = function (event) {
         if (typeof isNewGame === "undefined") {
+            //first time
             isNewGame = true;
             return;
         }
@@ -51,13 +52,13 @@ $(document).ready(function () {
             if (curWord.indexOf("_") == -1) {
                 isNewGame = true;
                 gameImage.setAttribute("src", curGame.imageUrl);
-                instructionText.textContent = "You Win! Press any key to restart a new game.";
+                instructionText.textContent = "You Win! Press any key to restart a new game";
             } 
             //lose, remaining guess equal to 0
             else if (remainingGuess == 0) {
                 isNewGame = true;
                 gameImage.setAttribute("src", "assets/images/lose.png");
-                instructionText.textContent = "You Lose! Press any key to restart a new game.";
+                instructionText.textContent = "You Lose! Press any key to restart a new game";
             }
         }
     }
