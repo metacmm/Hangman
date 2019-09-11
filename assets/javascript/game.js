@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
-    var curWord = ""; //user guess
+    var curWord = []; //user guess
     var remainingGuess = null; //remaining guess number
-    var guessedLetters = ""; //guessed letters not in the target word
+    var guessedLetters = []; //guessed letters not in the target word
     var isNewGame; //boolean to indicate if it is a new game
     var curGame; //randomly selected game for current round
 
@@ -29,20 +29,15 @@ $(document).ready(function () {
             if (curGame.word.toUpperCase().indexOf(userGuess) != -1) {
                 if (curWord.indexOf(userGuess) == -1) {
                     var curWordCopy = curWord;
-                    curWord = "";
                     for (var i = 0; i < curGame.word.length; i++) {
                         if (curGame.word[i].toUpperCase() === userGuess) {
-                            curWord += userGuess;
-                        }
-                        else {
-                            curWord += curWordCopy[i];
-                        }
-                    }
+                            curWord[i]= userGuess;
+                        }                    }
                 }
             } //matched
             else {
                 if (guessedLetters.indexOf(userGuess) == -1) {
-                    guessedLetters += userGuess;
+                    guessedLetters.push(userGuess);
                     remainingGuess--;
                 }
             }//unmatched
@@ -67,12 +62,12 @@ $(document).ready(function () {
         }
     }
     function startNewGame() {
-        curWord = "";
-        guessedLetters = "";
+        curWord = [];
+        guessedLetters = [];
         var rndIdx = Math.floor(Math.random() * games.length);
         curGame = games[rndIdx];
         for (var i = 0; i < curGame.word.length; i++) {
-            curWord += "_";
+            curWord [i]= "_";
         }
         curGame = games[rndIdx];
         remainingGuess = 12;
@@ -82,9 +77,9 @@ $(document).ready(function () {
     }
 
     function refreshScreen() {
-        curWordText.textContent = curWord;
+        curWordText.textContent = curWord.join(" ");
         remainingGuessText.textContent = remainingGuess;
-        guessedLettersText.textContent = guessedLetters;
+        guessedLettersText.textContent = guessedLetters.join(" ");
     }
 });
 
