@@ -1,80 +1,88 @@
 $(document).ready(function () {
 
-    var curWord = "";
-    var remainingGuess;
-    var guessedLetters = "";
-    var isNewGame;
-    var curGame;
+    var curWord = ""; //user guess
+    var remainingGuess = null; //remaining guess number
+    var guessedLetters = ""; //guessed letters not in the target word
+    var isNewGame; //boolean to indicate if it is a new game
+    var curGame; //randomly selected game for current round
+
+    //DOM 
     var curWordText = document.getElementById("txt-curWord");
     var remainingGuessText = document.getElementById("txt-remainingGuess");
     var guessedLettersText = document.getElementById("txt-guessedLetters");
+    var instructionText = document.getElementById("txt-instruction");
 
     document.onkeyup = function (event) {
         if (typeof isNewGame === "undefined") {
-            console.log("press any key to start!");
             isNewGame = true;
             return;
         }
         if (isNewGame) {
-            //randomly select a game
-            console.log("Is new game.");
-            var rndIdx = Math.floor(Math.random() * games.length);
-            curGame = games[rndIdx];
-            curWord = "";
-            //initialization
-            for (var i = 0; i < curGame.word.length; i++) {
-                curWord += "_";
-            }
-            remainingGuess = 12;
-            guessedLetters = "";
-            isNewGame = false;
+            startNewGame();
+            refreshScreen();
         }
+        else {
+            //update the field based on current key
+            var userGuess = event.key.toUpperCase();
 
-        //update the field based on current key
-        var userGuess = event.key.toUpperCase();
-
-        if (curGame.word.toUpperCase().indexOf(userGuess) != -1) {
-            if (curWord.indexOf(userGuess) == -1) {
-                var curWordCopy = curWord;
-                curWord = "";
-                for (var i = 0; i < curGame.word.length; i++) {
-                    if (curGame.word[i].toUpperCase() === userGuess) {
-                        curWord += userGuess;
-                    }
-                    else {
-                        curWord += curWordCopy[i];
+            if (curGame.word.toUpperCase().indexOf(userGuess) != -1) {
+                if (curWord.indexOf(userGuess) == -1) {
+                    var curWordCopy = curWord;
+                    curWord = "";
+                    for (var i = 0; i < curGame.word.length; i++) {
+                        if (curGame.word[i].toUpperCase() === userGuess) {
+                            curWord += userGuess;
+                        }
+                        else {
+                            curWord += curWordCopy[i];
+                        }
                     }
                 }
+            } //matched
+            else {
+                if (guessedLetters.indexOf(userGuess) == -1) {
+                    guessedLetters += userGuess;
+                    remainingGuess--;
+                }
+            }//unmatched
+
+
+            if (!isNewGame) {
+                refreshScreen();
             }
-        } //matched
-        else {
-            if (guessedLetters.indexOf(userGuess) == -1) {
-                guessedLetters += userGuess;
-                remainingGuess--;
+
+            //all letters are gussed
+            if (curWord.indexOf("_") == -1) {
+                isNewGame = true;
+                instructionText.textContent = "You Win! Press any key to restart a new game.";
+
+            } 
+            //lose, remaining guess equal to 0
+            else if (remainingGuess == 0) {
+                isNewGame = true;
+                instructionText.textContent = "You Lose! Press any key to restart a new game.";
             }
-        }//unmatched
-
-
-        if (!isNewGame) {
-            console.log("curWord is " + curWord);
-            curWordText.textContent = curWord;
-            console.log(remainingGuess);
-            remainingGuessText.textContent = remainingGuess;
-            console.log(guessedLetters);
-
-            guessedLettersText.textContent = guessedLetters;
         }
-
-        /** if success (all words guessed), isNewGame = true, update image, music */
-        if (curWord.indexOf("_") == -1) {
-            isNewGame = true;
-            console.log("Succeed!")
-
-        } else if (remainingGuess == 0) {
-            isNewGame = true;
-            console.log("failed!");
+    }
+    function startNewGame() {
+        curWord = "";
+        guessedLetters = "";
+        var rndIdx = Math.floor(Math.random() * games.length);
+        curGame = games[rndIdx];
+        for (var i = 0; i < curGame.word.length; i++) {
+            curWord += "_";
         }
+        curGame = games[rndIdx];
+        remainingGuess = 12;
+        isNewGame = false;
+        instructionText.textContent = "Type the letter you guessed."
+    }
 
-
+    function refreshScreen() {
+        curWordText.textContent = curWord;
+        remainingGuessText.textContent = remainingGuess;
+        guessedLettersText.textContent = guessedLetters;
     }
 });
+
+
