@@ -5,31 +5,24 @@ function game(w, image, music){
     this.word = w;
     this.imageUrl = image;
     this.musicUrl = music;
-    for (var i = 0; i < curGame.word.length; i++) {
+    for (var i = 0; i < this.word.length; i++) {
         this.curWord [i]= "_";
     }
 
-    //DOM 
-    var curWordText = document.getElementById("txt-curWord");
-    var remainingGuessText = document.getElementById("txt-remainingGuess");
-    var guessedLettersText = document.getElementById("txt-guessedLetters");
-    var instructionText = document.getElementById("txt-instruction");
-    var gameImage = document.getElementById("img-game");
-
     this.guess = function(letter){
-        if (curGame.word.toUpperCase().indexOf(letter) != -1) {
-            if (curWord.indexOf(letter) == -1) {
-                for (var i = 0; i < curGame.word.length; i++) {
-                    if (curGame.word[i].toUpperCase() === letter) {
-                        curWord[i]= letter;
+        if (this.word.toUpperCase().indexOf(letter) != -1) {
+            if (this.curWord.indexOf(letter) == -1) {
+                for (var i = 0; i < this.word.length; i++) {
+                    if (this.word[i].toUpperCase() === letter) {
+                        this.curWord[i]= letter;
                     }                    
                 }
             }
         } //matched
         else {
-            if (guessedLetters.indexOf(letter) == -1) {
-                guessedLetters.push(letter);
-                remainingGuess--;
+            if (this.guessedLetters.indexOf(letter) == -1) {
+                this.guessedLetters.push(letter);
+                this.remainingGuess--;
             }
         }//unmatched
     }
