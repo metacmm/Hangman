@@ -74,7 +74,7 @@ $(document).ready(function () {
         remainingGuess = 12;
         isNewGame = false;
         gameImage.setAttribute("src", "assets/images/start.jpeg");
-        instructionText.textContent = "Type the letter you guessed."
+        instructionText.textContent = "Type the letter you guessed"
     }
 
     function refreshScreen() {
