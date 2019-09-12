@@ -1,13 +1,14 @@
 $(document).ready(function () {
     var isNewGame; //boolean to indicate if it is a new game
     var curGame;
-
+    
     //DOM 
     var curWordText = document.getElementById("txt-curWord");
     var remainingGuessText = document.getElementById("txt-remainingGuess");
     var guessedLettersText = document.getElementById("txt-guessedLetters");
     var instructionText = document.getElementById("txt-instruction");
     var gameImage = document.getElementById("img-game");
+    var gameMusic = document.getElementById("audio-game");
 
     function refreshScreen(status) {
         if (status === "new" || status === "inprogress"){
@@ -16,13 +17,18 @@ $(document).ready(function () {
             guessedLettersText.textContent = curGame.guessedLetters.join(" ");
             if(status === "new"){
                 gameImage.setAttribute("src", "assets/images/start.jpeg");
+                gameMusic.pause();
                 instructionText.textContent = "Type the letter you guessed"
             }
         } else if (status === "won"){
             gameImage.setAttribute("src", curGame.imageUrl);
+            gameMusic.setAttribute("src", curGame.musicUrl);
+            gameMusic.play();
             instructionText.textContent = "You Win! Press any key to restart a new game";
         } else if (status === "lost"){
             gameImage.setAttribute("src", "assets/images/lose.png");
+            gameMusic.setAttribute("src", "assets/audio/lose.mp3");
+            gameMusic.play();
             instructionText.textContent = "You Lose! Press any key to restart a new game";
         }
     }
